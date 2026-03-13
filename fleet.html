@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexar Fleet | Simple Fleet Safety</title>
+<meta name="description" content="Fleet dashcam solution with white-glove service. $14.99/mo per vehicle, $159.95 hardware. Real-time alerts, verified footage, dedicated support.">
+<style>
+@font-face{font-family:'Hellix';src:url('fonts/Hellix-SemiBold.otf') format('opentype');font-weight:600;font-display:swap}
+@font-face{font-family:'Hellix';src:url('fonts/Hellix-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'Roobert';src:url('fonts/Roobert-Regular.otf') format('opentype');font-weight:400;font-display:swap}
+@font-face{font-family:'Roobert';src:url('fonts/Roobert-Medium.otf') format('opentype');font-weight:500;font-display:swap}
+@font-face{font-family:'Roobert';src:url('fonts/Roobert-SemiBold.otf') format('opentype');font-weight:600;font-display:swap}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060612;--teal:#23e7d8;--purple:#a183fa;--light-purple:#c084fc;
+  --white:#fafafa;--text-bright:rgba(255,255,255,0.92);--text-mid:rgba(255,255,255,0.78);
+  --glass-border:rgba(255,255,255,0.07);--glass-bg:rgba(255,255,255,0.035);
+  --section-pad-x:clamp(28px,8vw,140px);--section-pad-y:clamp(80px,12vh,140px);
+}
+html{background:var(--bg);color:var(--white);font-family:Roobert,system-ui,sans-serif;font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{background:var(--bg);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,4vw,48px);height:64px;background:rgba(6,6,18,0.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.05)}
+.nav-logo{height:22px;width:auto}
+.nav-links{display:flex;align-items:center;gap:clamp(16px,3vw,36px)}
+.nav-links a{font-size:14px;font-weight:500;letter-spacing:0.02em;color:rgba(255,255,255,0.70);transition:color 0.3s}
+.nav-links a:hover{color:var(--white)}
+.nav-links a.active{color:var(--purple);font-weight:600}
+@media(max-width:640px){.nav-links{display:none}}
+
+/* SECTION SYSTEM */
+.tab-section{position:relative;overflow:hidden;padding:var(--section-pad-y) var(--section-pad-x)}
+.tab-section.alt{background:rgba(255,255,255,0.015)}
+.tab-bg{position:absolute;inset:0;z-index:0}
+.tab-bg .tab-glow{position:absolute;border-radius:50%;filter:blur(80px)}
+.tab-bg .tab-particle-img{position:absolute;right:0;top:0;width:55%;height:100%;object-fit:cover;opacity:0.3;mask-image:radial-gradient(ellipse 80% 70% at 70% 50%,black 30%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 80% 70% at 70% 50%,black 30%,transparent 100%);animation:pulse 7s ease-in-out infinite}
+.tab-bg .tab-noise{position:absolute;inset:0;opacity:0.04;pointer-events:none}
+.tab-content-inner{position:relative;z-index:3;max-width:720px}
+.tab-content-inner.wide{max-width:960px}
+.tab-content-inner.full{max-width:1100px}
+.tab-content-inner.center{max-width:800px;margin-left:auto;margin-right:auto;text-align:center}
+.tab-chapter{font-family:Roobert,system-ui,sans-serif;font-size:13px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:16px}
+.tab-chapter.teal{color:var(--teal)}
+.tab-chapter.purple{color:var(--purple)}
+.tab-headline{font-family:Hellix,system-ui,sans-serif;font-size:clamp(28px,4vw,52px);font-weight:600;color:var(--text-bright);letter-spacing:-1px;line-height:1.1;margin-bottom:20px}
+.tab-copy{font-family:Roobert,system-ui,sans-serif;font-size:18px;color:var(--text-mid);max-width:580px;line-height:1.65;margin-bottom:28px}
+.tab-stat-row{display:flex;gap:clamp(24px,4vw,48px);flex-wrap:wrap;margin-top:24px}
+.tab-stat .n{font-family:Roobert,system-ui,sans-serif;font-size:clamp(24px,3.5vw,44px);font-weight:600;color:var(--teal);line-height:1}
+.tab-stat.purple .n{color:var(--purple)}
+.tab-stat .l{font-family:Roobert,system-ui,sans-serif;font-size:14px;color:rgba(255,255,255,0.70);margin-top:6px;line-height:1.4}
+.tab-reveal{opacity:0;transform:translateY(24px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
+.tab-reveal.visible{opacity:1;transform:translateY(0)}
+.tab-divider{height:1px;background:rgba(255,255,255,0.07)}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;min-height:85vh;display:flex;flex-direction:column;justify-content:center;padding:120px var(--section-pad-x) 80px}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-glow{position:absolute;top:15%;left:-10%;width:55%;height:70%;background:radial-gradient(ellipse,rgba(161,131,250,0.08),transparent 70%);border-radius:50%;filter:blur(80px)}
+.hero-particle{position:absolute;right:-5%;top:5%;width:60%;height:90%;object-fit:cover;opacity:0.35;mask-image:radial-gradient(ellipse 85% 80% at 65% 50%,black 25%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 85% 80% at 65% 50%,black 25%,transparent 100%);animation:pulse 7s ease-in-out infinite}
+.hero-noise{position:absolute;inset:0;opacity:0.04;pointer-events:none}
+.hero-content{position:relative;z-index:3;max-width:660px}
+.hero-headline{font-family:Hellix,system-ui,sans-serif;font-size:clamp(36px,6vw,76px);font-weight:600;line-height:1.05;letter-spacing:-1.76px;color:var(--text-bright);margin-bottom:24px}
+.hero-sub{font-family:Roobert,system-ui,sans-serif;font-size:clamp(17px,2vw,21px);line-height:1.6;color:var(--text-mid);max-width:540px;margin-bottom:32px}
+.hero-pricing{display:flex;gap:32px;align-items:baseline;margin-bottom:32px;flex-wrap:wrap}
+.hero-price{font-family:Hellix,system-ui,sans-serif;font-size:clamp(28px,3.5vw,40px);font-weight:600;color:var(--purple)}
+.hero-price span{font-size:0.5em;color:rgba(255,255,255,0.60);font-weight:400}
+.hero-price-note{font-size:14px;color:rgba(255,255,255,0.55)}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap}
+
+/* BUTTONS */
+.btn-primary{display:inline-block;padding:16px 36px;background:var(--purple);color:var(--bg);font-family:Roobert,system-ui,sans-serif;font-size:16px;font-weight:600;border-radius:6px;border:none;cursor:pointer;transition:background 0.3s,transform 0.2s}
+.btn-primary:hover{background:#b49cfb;transform:translateY(-1px)}
+.btn-ghost{display:inline-block;padding:16px 36px;background:transparent;color:var(--white);font-family:Roobert,system-ui,sans-serif;font-size:16px;font-weight:500;border-radius:6px;border:1px solid rgba(255,255,255,0.14);cursor:pointer;transition:border-color 0.3s}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.3)}
+
+/* VIDEO EMBED */
+.video-frame{position:relative;width:100%;max-width:800px;margin:36px auto 0;border-radius:12px;overflow:hidden;border:1px solid var(--glass-border);aspect-ratio:16/9;background:#000}
+.video-frame iframe,.video-frame video{position:absolute;inset:0;width:100%;height:100%;border:none;object-fit:cover}
+
+/* FEATURES CARDS */
+.features{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:40px}
+@media(max-width:700px){.features{grid-template-columns:1fr}}
+.feature{padding:clamp(24px,2.5vw,36px);border:1px solid var(--glass-border);border-radius:12px;background:var(--glass-bg);transition:border-color 0.3s}
+.feature:hover{border-color:rgba(255,255,255,0.14)}
+.feature-title{font-family:Hellix,system-ui,sans-serif;font-size:clamp(18px,2vw,22px);font-weight:600;color:var(--text-bright);letter-spacing:-0.3px;margin-bottom:8px}
+.feature-desc{font-size:16px;color:var(--text-mid);line-height:1.6}
+
+/* TESTIMONIALS */
+.testimonials{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:40px}
+@media(max-width:800px){.testimonials{grid-template-columns:1fr}}
+.testimonial{padding:clamp(24px,2.5vw,32px);border:1px solid var(--glass-border);border-radius:12px;background:var(--glass-bg)}
+.testimonial-video{width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;margin-bottom:16px;background:#000;border:1px solid var(--glass-border)}
+.testimonial-video iframe{width:100%;height:100%;border:none}
+.testimonial-quote{font-size:16px;color:var(--text-mid);line-height:1.6;margin-bottom:12px;font-style:italic}
+.testimonial-name{font-size:15px;font-weight:600;color:var(--text-bright)}
+.testimonial-role{font-size:13px;color:rgba(255,255,255,0.55)}
+
+/* DASHBOARD */
+.dashboard-preview{margin-top:36px;border:1px solid var(--glass-border);border-radius:12px;overflow:hidden;background:rgba(6,6,18,0.8)}
+.dashboard-bar{padding:12px 20px;display:flex;gap:8px;border-bottom:1px solid var(--glass-border)}
+.dashboard-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.12)}
+.dashboard-body{padding:clamp(24px,3vw,40px);display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media(max-width:700px){.dashboard-body{grid-template-columns:repeat(2,1fr)}}
+.dash-metric{text-align:center}
+.dash-metric-val{font-family:Hellix,system-ui,sans-serif;font-size:clamp(24px,3vw,36px);font-weight:600;color:var(--purple);margin-bottom:4px}
+.dash-metric-label{font-size:13px;color:rgba(255,255,255,0.60)}
+
+/* PRICING */
+.pricing-card{max-width:560px;margin:36px auto 0;padding:clamp(32px,4vw,48px);border:2px solid var(--purple);border-radius:16px;background:rgba(161,131,250,0.04);text-align:center}
+.pricing-title{font-family:Hellix,system-ui,sans-serif;font-size:clamp(22px,3vw,28px);font-weight:600;color:var(--text-bright);margin-bottom:8px}
+.pricing-price{font-family:Hellix,system-ui,sans-serif;font-size:clamp(40px,5vw,60px);font-weight:600;color:var(--purple);margin:16px 0 4px}
+.pricing-price span{font-size:0.4em;color:rgba(255,255,255,0.60);font-weight:400;vertical-align:super}
+.pricing-subtitle{font-size:15px;color:rgba(255,255,255,0.55);margin-bottom:24px}
+.pricing-features{list-style:none;text-align:left;max-width:360px;margin:0 auto 28px}
+.pricing-features li{font-size:15px;color:var(--text-mid);padding:8px 0;padding-left:22px;position:relative;line-height:1.5}
+.pricing-features li::before{content:'';position:absolute;left:0;top:14px;width:8px;height:8px;border-radius:50%;background:var(--purple);opacity:0.6}
+
+/* FAQ */
+.faq-list{max-width:720px;margin:36px auto 0}
+.faq-item{border-bottom:1px solid var(--glass-border)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:20px 0;cursor:pointer;font-family:Roobert,system-ui,sans-serif;font-size:17px;font-weight:500;color:var(--text-bright);transition:color 0.3s}
+.faq-q:hover{color:var(--purple)}
+.faq-q svg{width:20px;height:20px;flex-shrink:0;transition:transform 0.3s;fill:rgba(255,255,255,0.40)}
+.faq-item.open .faq-q svg{transform:rotate(45deg)}
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows 0.35s ease}
+.faq-item.open .faq-a{grid-template-rows:1fr}
+.faq-a-inner{overflow:hidden}
+.faq-a-inner p{padding:0 0 20px;font-size:16px;color:var(--text-mid);line-height:1.65}
+
+/* BLOG CARDS */
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px}
+@media(max-width:800px){.blog-grid{grid-template-columns:1fr}}
+.blog-card{border:1px solid var(--glass-border);border-radius:12px;overflow:hidden;background:var(--glass-bg);transition:border-color 0.3s,transform 0.3s}
+.blog-card:hover{border-color:rgba(255,255,255,0.14);transform:translateY(-2px)}
+.blog-card-img{width:100%;aspect-ratio:16/10;object-fit:cover;border-bottom:1px solid var(--glass-border)}
+.blog-card-body{padding:clamp(16px,2vw,24px)}
+.blog-card-tag{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--purple);margin-bottom:8px;font-weight:600}
+.blog-card-title{font-family:Hellix,system-ui,sans-serif;font-size:17px;font-weight:600;color:var(--text-bright);line-height:1.3;margin-bottom:8px}
+.blog-card-desc{font-size:14px;color:rgba(255,255,255,0.60);line-height:1.5}
+
+/* LOCKUP */
+.lockup-section{position:relative;display:flex;align-items:center;justify-content:center;padding:clamp(60px,10vh,120px) var(--section-pad-x);background:var(--bg)}
+.lockup-video{max-width:480px;width:100%;display:block}
+
+/* COOKIE CONSENT */
+.cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:200;display:flex;align-items:center;gap:clamp(16px,3vw,28px);padding:16px clamp(20px,4vw,48px);background:rgba(6,6,18,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid rgba(255,255,255,0.07);transform:translateY(100%);transition:transform 0.5s cubic-bezier(0.16,1,0.3,1)}
+.cookie-banner.show{transform:translateY(0)}
+.cookie-banner-video{width:48px;height:48px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.cookie-banner-text{flex:1;font-size:14px;color:rgba(255,255,255,0.70);line-height:1.5}
+.cookie-banner-text a{color:var(--teal);text-decoration:underline;text-underline-offset:2px}
+.cookie-banner-actions{display:flex;gap:10px;flex-shrink:0}
+.cookie-btn{padding:10px 20px;font-family:Roobert,system-ui,sans-serif;font-size:13px;font-weight:600;border-radius:6px;border:none;cursor:pointer;transition:background 0.3s,transform 0.2s}
+.cookie-btn.accept{background:var(--teal);color:var(--bg)}
+.cookie-btn.accept:hover{background:#4fece0;transform:translateY(-1px)}
+.cookie-btn.decline{background:transparent;color:rgba(255,255,255,0.60);border:1px solid rgba(255,255,255,0.12)}
+.cookie-btn.decline:hover{border-color:rgba(255,255,255,0.25);color:rgba(255,255,255,0.80)}
+@media(max-width:640px){.cookie-banner{flex-wrap:wrap;gap:12px}.cookie-banner-video{width:36px;height:36px}.cookie-banner-actions{width:100%;justify-content:flex-end}}
+
+/* FOOTER */
+.footer{padding:48px var(--section-pad-x);display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.05)}
+.footer-left{font-size:13px;color:rgba(255,255,255,0.45)}
+.footer-tagline{font-size:14px;color:rgba(255,255,255,0.60);font-style:italic}
+@media(max-width:640px){.footer{flex-direction:column;gap:12px;text-align:center}}
+
+@keyframes pulse{0%,100%{opacity:0.3;transform:scale(1)}50%{opacity:0.35;transform:scale(1.02)}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html"><img class="nav-logo" src="img/nexar-logo-white.png" alt="Nexar"></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="consumer.html">Drivers</a>
+    <a href="fleet.html" class="active">Fleet</a>
+    <a href="enterprise.html">Enterprise</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-glow"></div>
+    <img class="hero-particle" src="particles/fleet-hero-intersection.png" alt="" loading="lazy">
+    <svg class="hero-noise" width="100%" height="100%">
+      <filter id="nfh"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nfh)"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <div class="tab-chapter purple tab-reveal">Nexar Fleet</div>
+    <div class="hero-headline tab-reveal">Fleet safety, verified.</div>
+    <div class="hero-sub tab-reveal">
+      Plug in. See everything. Every mile recorded, every event verified with real footage from real roads. Nexar gets your fleet protected in days, not quarters. No complex installs, no IT department required.
+    </div>
+    <div class="hero-pricing tab-reveal">
+      <div>
+        <div class="hero-price">$14.99<span>/mo per vehicle</span></div>
+        <div class="hero-price-note">All-in software + cloud + support</div>
+      </div>
+      <div>
+        <div class="hero-price">$159.95<span> hardware</span></div>
+        <div class="hero-price-note">One-time per vehicle</div>
+      </div>
+    </div>
+    <div class="hero-ctas tab-reveal">
+      <a href="mailto:fleet@getnexar.com" class="btn-primary">Talk to fleet team</a>
+      <a href="#features" class="btn-ghost">See features</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHITE GLOVE SERVICE -->
+<div class="tab-divider"></div>
+<section class="tab-section alt">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:10%;right:-10%;width:45%;height:65%;background:radial-gradient(ellipse,rgba(35,231,216,0.06),transparent 70%)"></div>
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nf0"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nf0)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full" style="margin-left:auto;margin-right:auto;">
+    <div class="tab-chapter teal tab-reveal" style="text-align:center;">White-glove service</div>
+    <div class="tab-headline tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">A partner, not a vendor.</div>
+    <div class="tab-copy tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">
+      Most fleet solutions leave you alone after the sale. Nexar gives you a dedicated team that handles setup, training, and ongoing support. Real people who pick up the phone and know your fleet by name.
+    </div>
+
+    <div class="video-frame tab-reveal">
+      <video autoplay muted loop playsinline>
+        <source src="video/fleet-weavy.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<div class="tab-divider"></div>
+<section class="tab-section" id="features">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:5%;left:-10%;width:50%;height:70%;background:radial-gradient(ellipse,rgba(161,131,250,0.06),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/fleet-values-map.png" alt="" loading="lazy">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nf1"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nf1)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full" style="margin-left:auto;margin-right:auto;">
+    <div class="tab-chapter purple tab-reveal" style="text-align:center;">Everything you need</div>
+    <div class="tab-headline tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">Built for fleet managers who have real jobs.</div>
+
+    <div class="features tab-reveal">
+      <div class="feature">
+        <div class="feature-title">Real-time event alerts</div>
+        <div class="feature-desc">Hard braking, collisions, speeding, distracted driving. Get notified immediately with video proof. Not a report you read tomorrow.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-title">GPS fleet tracking</div>
+        <div class="feature-desc">Know where every vehicle is, right now. Route history, stop duration, idle time. All in one dashboard.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Driver coaching</div>
+        <div class="feature-desc">Identify risky behavior before it becomes an incident. Video-based coaching that drivers actually respond to.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Insurance documentation</div>
+        <div class="feature-desc">Timestamped, GPS-tagged footage ready for any claim. Exonerate your drivers, reduce premiums, protect your business.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<div class="tab-divider"></div>
+<section class="tab-section alt">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:10%;right:-8%;width:40%;height:55%;background:radial-gradient(ellipse,rgba(35,231,216,0.05),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/fleet-stats-data.png" alt="" loading="lazy">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nf2"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nf2)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full" style="margin-left:auto;margin-right:auto;">
+    <div class="tab-chapter teal tab-reveal" style="text-align:center;">Fleet managers speak</div>
+    <div class="tab-headline tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">Real fleets, real results.</div>
+
+    <div class="testimonials tab-reveal">
+      <div class="testimonial">
+        <div class="testimonial-video">
+          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="testimonial-quote">"We went from zero visibility to total fleet awareness in two weeks. Nexar was the only solution that did not require a dedicated IT team to deploy."</div>
+        <div class="testimonial-name">Rocco Santamaria</div>
+        <div class="testimonial-role">HappyNest, Fleet Manager</div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-video">
+          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="testimonial-quote">"The driver coaching tools paid for themselves within the first month. Our incident rate dropped noticeably, and our insurance company noticed too."</div>
+        <div class="testimonial-name">Yorman Sanchez</div>
+        <div class="testimonial-role">Fleet Operations</div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-video">
+          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="testimonial-quote">"I have tried three other fleet camera providers. Nexar is the first one where the support team actually answers the phone and knows my account."</div>
+        <div class="testimonial-name">William Rivers</div>
+        <div class="testimonial-role">Fleet Owner</div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-video">
+          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="testimonial-quote">"After a driver was falsely accused in a collision, the Nexar footage cleared everything in 24 hours. That alone was worth the investment."</div>
+        <div class="testimonial-name">Michael Gargan</div>
+        <div class="testimonial-role">Operations Director</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<div class="tab-divider"></div>
+<section class="tab-section">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:15%;left:-5%;width:45%;height:55%;background:radial-gradient(ellipse,rgba(161,131,250,0.06),transparent 70%)"></div>
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nf3"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nf3)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full" style="margin-left:auto;margin-right:auto;">
+    <div class="tab-chapter teal tab-reveal" style="text-align:center;">All-in-one dashboard</div>
+    <div class="tab-headline tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">Your entire fleet. One screen.</div>
+    <div class="tab-copy tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">
+      Live vehicle locations, driver scores, event history, footage library. Everything a fleet manager needs, nothing they do not.
+    </div>
+
+    <div class="dashboard-preview tab-reveal">
+      <div class="dashboard-bar">
+        <div class="dashboard-dot"></div>
+        <div class="dashboard-dot"></div>
+        <div class="dashboard-dot"></div>
+      </div>
+      <div class="dashboard-body">
+        <div class="dash-metric">
+          <div class="dash-metric-val">47</div>
+          <div class="dash-metric-label">Active vehicles</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dash-metric-val">94</div>
+          <div class="dash-metric-label">Avg. driver score</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dash-metric-val">3</div>
+          <div class="dash-metric-label">Events today</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dash-metric-val">12,841</div>
+          <div class="dash-metric-label">Miles this week</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VERIFIED FLEET INTELLIGENCE -->
+<div class="tab-divider"></div>
+<section class="tab-section alt">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:10%;right:-8%;width:45%;height:60%;background:radial-gradient(ellipse,rgba(35,231,216,0.06),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/trust-dna.png" alt="" loading="lazy">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nfv"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nfv)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full" style="margin-left:auto;margin-right:auto;">
+    <div class="tab-chapter teal tab-reveal" style="text-align:center;">Verifying AI</div>
+    <div class="tab-headline tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">Your footage is part of something bigger.</div>
+    <div class="tab-copy tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">
+      Every mile your fleet drives feeds into the Nexar network: 10 billion verified miles and growing. This is not just a dashcam. It is a verified intelligence layer that makes roads safer for everyone.
+    </div>
+
+    <div class="features tab-reveal" style="margin-top:40px;">
+      <div class="feature">
+        <div class="feature-title">Verified, not predicted</div>
+        <div class="feature-desc">Every event, every clip, every alert is grounded in real footage from real roads. No synthetic data. No simulations. When your driver is exonerated, it is because the proof is real.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-title">10 billion miles of trust</div>
+        <div class="feature-desc">Your fleet joins a network of 350,000+ cameras verifying road conditions in real time. Insurance companies, cities, and enterprise partners trust Nexar data because it is verified at source.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Privacy by design</div>
+        <div class="feature-desc">Footage belongs to you. Nexar is SOC 2 compliant with end-to-end encryption. Driver privacy controls, data retention policies, and GDPR readiness are built in from day one.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-title">The road to autonomous safety</div>
+        <div class="feature-desc">Nexar fleet data helps train the AI systems that will make tomorrow's roads safer. Your fleet is not just protected. It is contributing to the future of transportation safety.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<div class="tab-divider"></div>
+<section class="tab-section" id="pricing">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:10%;right:-8%;width:40%;height:55%;background:radial-gradient(ellipse,rgba(35,231,216,0.05),transparent 70%)"></div>
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nf4"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nf4)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full" style="margin-left:auto;margin-right:auto;">
+    <div class="tab-chapter purple tab-reveal" style="text-align:center;">Transparent pricing</div>
+    <div class="tab-headline tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">No hidden fees. No surprises.</div>
+
+    <div class="pricing-card tab-reveal">
+      <div class="pricing-title">Nexar Fleet</div>
+      <div class="pricing-price">$14.99<span>/mo per vehicle</span></div>
+      <div class="pricing-subtitle">+ $159.95 one-time hardware cost</div>
+      <ul class="pricing-features">
+        <li>Dashcam hardware included</li>
+        <li>Unlimited cloud storage</li>
+        <li>Real-time alerts and notifications</li>
+        <li>GPS tracking and route history</li>
+        <li>Driver scoring and coaching</li>
+        <li>Fleet management dashboard</li>
+        <li>Dedicated support team</li>
+        <li>No minimum contract</li>
+      </ul>
+      <a href="mailto:fleet@getnexar.com" class="btn-primary" style="width:100%;max-width:320px;">Get started</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<div class="tab-divider"></div>
+<section class="tab-section">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:10%;left:-5%;width:40%;height:50%;background:radial-gradient(ellipse,rgba(161,131,250,0.04),transparent 70%)"></div>
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nf5"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nf5)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full" style="margin-left:auto;margin-right:auto;">
+    <div class="tab-chapter teal tab-reveal" style="text-align:center;">Frequently asked</div>
+    <div class="tab-headline tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">Fleet questions, answered.</div>
+
+    <div class="faq-list tab-reveal">
+      <div class="faq-item">
+        <div class="faq-q">How long does it take to deploy across my fleet?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>Most fleets are fully operational within 1 to 2 weeks. Each camera installs in under 10 minutes. No professional installation, no wiring, no downtime. Our team handles onboarding and training remotely.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is there a minimum fleet size?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>No. Nexar Fleet works for fleets of 5 vehicles or 5,000. Pricing scales linearly with no volume minimums or tiered gates. You add vehicles as you grow.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What kind of support do I get?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>A dedicated account manager who knows your fleet. Phone support, email support, and proactive check-ins. We handle hardware replacements, software updates, and driver onboarding materials.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Does the camera work without cellular coverage?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>Yes. The camera records locally and syncs to the cloud when connectivity returns. No footage is ever lost, even in areas with spotty cellular coverage.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I use Nexar with my existing fleet management tools?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>Nexar integrates with major fleet management platforms via API. Your Nexar data can flow into your existing workflows. Contact our team for integration details specific to your setup.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG / RESOURCES -->
+<div class="tab-divider"></div>
+<section class="tab-section alt">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:15%;right:-5%;width:40%;height:50%;background:radial-gradient(ellipse,rgba(35,231,216,0.04),transparent 70%)"></div>
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nf6"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nf6)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full" style="margin-left:auto;margin-right:auto;">
+    <div class="tab-chapter purple tab-reveal" style="text-align:center;">From the blog</div>
+    <div class="tab-headline tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">Fleet safety insights</div>
+
+    <div class="blog-grid tab-reveal">
+      <div class="blog-card">
+        <img class="blog-card-img" src="particles/fleet-values-map.png" alt="" loading="lazy" style="opacity:0.6;">
+        <div class="blog-card-body">
+          <div class="blog-card-tag">Safety</div>
+          <div class="blog-card-title">How dashcam footage reduces fraudulent claims by 78%</div>
+          <div class="blog-card-desc">Fleet operators share how verified video evidence has transformed their insurance claim process.</div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <img class="blog-card-img" src="particles/fleet-stats-data.png" alt="" loading="lazy" style="opacity:0.6;">
+        <div class="blog-card-body">
+          <div class="blog-card-tag">Operations</div>
+          <div class="blog-card-title">5 fleet safety metrics that actually matter</div>
+          <div class="blog-card-desc">Stop drowning in data. Focus on the numbers that predict and prevent incidents.</div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <img class="blog-card-img" src="particles/fleet-hero-intersection.png" alt="" loading="lazy" style="opacity:0.6;">
+        <div class="blog-card-body">
+          <div class="blog-card-tag">Case Study</div>
+          <div class="blog-card-title">HappyNest: from zero visibility to fleet-wide safety in 14 days</div>
+          <div class="blog-card-desc">How a growing delivery fleet deployed Nexar across 60 vehicles without a single day of downtime.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA -->
+<div class="tab-divider"></div>
+<section class="tab-section">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:20%;left:15%;width:50%;height:60%;background:radial-gradient(ellipse,rgba(161,131,250,0.07),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/fleet-cta-dna.png" alt="" loading="lazy" style="left:0;right:auto;">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nf7"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nf7)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner center">
+    <div class="tab-headline tab-reveal" style="font-size:clamp(32px,5vw,56px);">Verify your fleet. Protect your drivers.</div>
+    <div class="tab-copy tab-reveal" style="margin:0 auto 16px;text-align:center;max-width:520px;">
+      Join 350,000+ cameras verifying roads in real time. $14.99/mo per vehicle. White-glove onboarding. Dedicated support. No minimum contract.
+    </div>
+    <div class="tab-reveal" style="margin-top:32px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="mailto:fleet@getnexar.com" class="btn-primary" style="padding:18px 48px;font-size:17px;">Talk to fleet team</a>
+      <a href="#pricing" class="btn-ghost" style="padding:18px 36px;font-size:17px;">See pricing</a>
+    </div>
+  </div>
+</section>
+
+<!-- VERIFYING AI LOCKUP -->
+<div style="height:1px;background:rgba(255,255,255,0.07)"></div>
+<section class="lockup-section">
+  <video class="lockup-video" autoplay loop muted playsinline>
+    <source src="video/verifying-ai-lockup.webm" type="video/webm">
+    <source src="video/verifying-ai-lockup.mp4" type="video/mp4">
+  </video>
+</section>
+
+<!-- COOKIE CONSENT -->
+<div class="cookie-banner" id="cookieBanner">
+  <video class="cookie-banner-video" autoplay loop muted playsinline>
+    <source src="video/space-cookie.mp4" type="video/mp4">
+  </video>
+  <div class="cookie-banner-text">
+    We use cookies to improve your experience and analyze site traffic. By continuing, you agree to our <a href="#">Cookie Policy</a>.
+  </div>
+  <div class="cookie-banner-actions">
+    <button class="cookie-btn decline" onclick="dismissCookie()">Decline</button>
+    <button class="cookie-btn accept" onclick="dismissCookie()">Accept</button>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-left">&copy; 2026 Nexar. Privacy. Terms.</div>
+  <div class="footer-tagline">Reality beats rehearsal.</div>
+</footer>
+
+<script>
+/* Scroll reveal */
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target)}})},{threshold:0.15});
+document.querySelectorAll('.tab-reveal').forEach(el=>obs.observe(el));
+
+/* FAQ accordion */
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement;
+    const wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen)item.classList.add('open');
+  });
+});
+
+/* Cookie banner */
+function dismissCookie(){document.getElementById('cookieBanner').classList.remove('show')}
+setTimeout(()=>{document.getElementById('cookieBanner').classList.add('show')},2000);
+</script>
+</body>
+</html>

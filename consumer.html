@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexar Dashcam | Protect Your Drive</title>
+<meta name="description" content="Nexar dashcams give you proof when it matters. Trusted by 350,000+ drivers. Starting at $239.95. Free app, cloud backup, real-time alerts.">
+<style>
+@font-face{font-family:'Hellix';src:url('fonts/Hellix-SemiBold.otf') format('opentype');font-weight:600;font-display:swap}
+@font-face{font-family:'Hellix';src:url('fonts/Hellix-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'Roobert';src:url('fonts/Roobert-Regular.otf') format('opentype');font-weight:400;font-display:swap}
+@font-face{font-family:'Roobert';src:url('fonts/Roobert-Medium.otf') format('opentype');font-weight:500;font-display:swap}
+@font-face{font-family:'Roobert';src:url('fonts/Roobert-SemiBold.otf') format('opentype');font-weight:600;font-display:swap}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060612;--teal:#23e7d8;--purple:#a183fa;--light-purple:#c084fc;
+  --white:#fafafa;--text-bright:rgba(255,255,255,0.92);--text-mid:rgba(255,255,255,0.78);
+  --glass-border:rgba(255,255,255,0.07);--glass-bg:rgba(255,255,255,0.035);
+  --section-pad-x:clamp(28px,8vw,140px);--section-pad-y:clamp(80px,12vh,140px);
+}
+html{background:var(--bg);color:var(--white);font-family:Roobert,system-ui,sans-serif;font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{background:var(--bg);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,4vw,48px);height:64px;background:rgba(6,6,18,0.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.05)}
+.nav-logo{height:22px;width:auto}
+.nav-links{display:flex;align-items:center;gap:clamp(16px,3vw,36px)}
+.nav-links a{font-size:14px;font-weight:500;letter-spacing:0.02em;color:rgba(255,255,255,0.70);transition:color 0.3s}
+.nav-links a:hover{color:var(--white)}
+.nav-links a.active{color:var(--teal);font-weight:600}
+@media(max-width:640px){.nav-links{display:none}}
+
+/* SECTION SYSTEM */
+.tab-section{position:relative;overflow:hidden;padding:var(--section-pad-y) var(--section-pad-x)}
+.tab-section.alt{background:rgba(255,255,255,0.015)}
+.tab-bg{position:absolute;inset:0;z-index:0}
+.tab-bg .tab-glow{position:absolute;border-radius:50%;filter:blur(80px)}
+.tab-bg .tab-particle-img{position:absolute;right:0;top:0;width:55%;height:100%;object-fit:cover;opacity:0.3;mask-image:radial-gradient(ellipse 80% 70% at 70% 50%,black 30%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 80% 70% at 70% 50%,black 30%,transparent 100%);animation:pulse 7s ease-in-out infinite}
+.tab-bg .tab-noise{position:absolute;inset:0;opacity:0.04;pointer-events:none}
+.tab-content-inner{position:relative;z-index:3;max-width:720px}
+.tab-content-inner.wide{max-width:960px}
+.tab-content-inner.full{max-width:1100px}
+.tab-content-inner.center{max-width:800px;margin-left:auto;margin-right:auto;text-align:center}
+.tab-chapter{font-family:Roobert,system-ui,sans-serif;font-size:13px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:16px}
+.tab-chapter.teal{color:var(--teal)}
+.tab-chapter.purple{color:var(--purple)}
+.tab-headline{font-family:Hellix,system-ui,sans-serif;font-size:clamp(28px,4vw,52px);font-weight:600;color:var(--text-bright);letter-spacing:-1px;line-height:1.1;margin-bottom:20px}
+.tab-copy{font-family:Roobert,system-ui,sans-serif;font-size:18px;color:var(--text-mid);max-width:580px;line-height:1.65;margin-bottom:28px}
+.tab-reveal{opacity:0;transform:translateY(24px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
+.tab-reveal.visible{opacity:1;transform:translateY(0)}
+.tab-divider{height:1px;background:rgba(255,255,255,0.07)}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;min-height:85vh;display:flex;flex-direction:column;justify-content:center;padding:120px var(--section-pad-x) 80px}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-glow{position:absolute;top:15%;left:-10%;width:55%;height:70%;background:radial-gradient(ellipse,rgba(35,231,216,0.08),transparent 70%);border-radius:50%;filter:blur(80px)}
+.hero-particle{position:absolute;right:-5%;top:5%;width:60%;height:90%;object-fit:cover;opacity:0.35;mask-image:radial-gradient(ellipse 85% 80% at 65% 50%,black 25%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 85% 80% at 65% 50%,black 25%,transparent 100%);animation:pulse 7s ease-in-out infinite}
+.hero-noise{position:absolute;inset:0;opacity:0.04;pointer-events:none}
+.hero-content{position:relative;z-index:3;max-width:620px}
+.hero-headline{font-family:Hellix,system-ui,sans-serif;font-size:clamp(36px,6vw,76px);font-weight:600;line-height:1.05;letter-spacing:-1.76px;color:var(--text-bright);margin-bottom:24px}
+.hero-sub{font-family:Roobert,system-ui,sans-serif;font-size:clamp(17px,2vw,21px);line-height:1.6;color:var(--text-mid);max-width:520px;margin-bottom:32px}
+.hero-trust{display:flex;align-items:center;gap:12px;margin-bottom:32px}
+.hero-trust-stars{display:flex;gap:2px}
+.hero-trust-stars svg{width:18px;height:18px;fill:var(--teal)}
+.hero-trust-text{font-size:15px;color:rgba(255,255,255,0.70)}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap}
+
+/* BUTTONS */
+.btn-primary{display:inline-block;padding:16px 36px;background:var(--teal);color:var(--bg);font-family:Roobert,system-ui,sans-serif;font-size:16px;font-weight:600;border-radius:6px;border:none;cursor:pointer;transition:background 0.3s,transform 0.2s}
+.btn-primary:hover{background:#4fece0;transform:translateY(-1px)}
+.btn-ghost{display:inline-block;padding:16px 36px;background:transparent;color:var(--white);font-family:Roobert,system-ui,sans-serif;font-size:16px;font-weight:500;border-radius:6px;border:1px solid rgba(255,255,255,0.14);cursor:pointer;transition:border-color 0.3s}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.3)}
+
+/* PRODUCT TIERS */
+.products{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+@media(max-width:900px){.products{grid-template-columns:1fr;max-width:440px;margin-left:auto;margin-right:auto}}
+.product{position:relative;padding:0;border:1px solid var(--glass-border);border-radius:12px;background:rgba(6,6,18,0.6);backdrop-filter:blur(12px);overflow:hidden;transition:border-color 0.4s,transform 0.3s}
+.product:hover{border-color:rgba(255,255,255,0.14);transform:translateY(-3px)}
+.product.featured{border-color:var(--teal)}
+.product-badge{position:absolute;top:16px;right:16px;background:var(--teal);color:var(--bg);font-size:12px;font-weight:600;letter-spacing:0.04em;padding:5px 14px;border-radius:40px;z-index:2}
+.product-img{width:100%;aspect-ratio:4/3;object-fit:cover;border-bottom:1px solid var(--glass-border)}
+.product-body{padding:clamp(20px,2.5vw,32px)}
+.product-name{font-family:Hellix,system-ui,sans-serif;font-size:clamp(18px,2vw,22px);font-weight:600;color:var(--text-bright);margin-bottom:4px}
+.product-desc{font-size:15px;color:rgba(255,255,255,0.65);line-height:1.5;margin-bottom:16px}
+.product-price{font-family:Roobert,system-ui,sans-serif;font-size:clamp(24px,3vw,32px);font-weight:600;color:var(--white);margin-bottom:4px}
+.product-price-note{font-size:13px;color:rgba(255,255,255,0.50);margin-bottom:20px}
+.product-features{list-style:none;margin-bottom:24px}
+.product-features li{font-size:15px;color:var(--text-mid);padding:6px 0;padding-left:22px;position:relative;line-height:1.5}
+.product-features li::before{content:'';position:absolute;left:0;top:12px;width:8px;height:8px;border-radius:50%;background:var(--teal);opacity:0.6}
+.product .btn-primary{width:100%;text-align:center}
+.product.featured .btn-primary{background:var(--teal)}
+
+/* TESTIMONIALS */
+.testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+@media(max-width:800px){.testimonials{grid-template-columns:1fr}}
+.testimonial{padding:clamp(24px,2.5vw,32px);border:1px solid var(--glass-border);border-radius:12px;background:var(--glass-bg)}
+.testimonial-scenario{font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:12px;font-weight:600}
+.testimonial-quote{font-size:16px;color:var(--text-mid);line-height:1.6;margin-bottom:16px;font-style:italic}
+.testimonial-author{font-size:14px;color:rgba(255,255,255,0.65)}
+.testimonial-author strong{color:var(--text-bright);font-weight:500}
+
+/* SETUP STEPS */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:40px;counter-reset:step}
+@media(max-width:800px){.steps{grid-template-columns:1fr;max-width:480px;margin-left:auto;margin-right:auto}}
+.step{counter-increment:step;position:relative;padding-top:48px}
+.step::before{content:counter(step);position:absolute;top:0;left:0;font-family:Hellix,system-ui,sans-serif;font-size:32px;font-weight:600;color:var(--teal);opacity:0.4;line-height:1}
+.step-title{font-family:Hellix,system-ui,sans-serif;font-size:20px;font-weight:600;color:var(--text-bright);margin-bottom:8px}
+.step-desc{font-size:16px;color:var(--text-mid);line-height:1.6}
+
+/* FEATURES STRIP */
+.feature-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:40px}
+@media(max-width:800px){.feature-strip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.feature-strip{grid-template-columns:1fr}}
+.feature-item{padding:clamp(20px,2vw,28px);border:1px solid var(--glass-border);border-radius:8px;background:var(--glass-bg)}
+.feature-item-title{font-family:Hellix,system-ui,sans-serif;font-size:17px;font-weight:600;color:var(--text-bright);margin-bottom:6px}
+.feature-item-desc{font-size:14px;color:rgba(255,255,255,0.65);line-height:1.5}
+
+/* LTE SECTION */
+.lte-card{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:36px}
+@media(max-width:700px){.lte-card{grid-template-columns:1fr;gap:24px}}
+.lte-price{font-family:Hellix,system-ui,sans-serif;font-size:clamp(36px,5vw,56px);font-weight:600;color:var(--teal)}
+.lte-price span{font-size:0.45em;color:rgba(255,255,255,0.60);font-weight:400;vertical-align:super}
+.lte-benefits{list-style:none}
+.lte-benefits li{font-size:16px;color:var(--text-mid);padding:8px 0;padding-left:22px;position:relative;line-height:1.5}
+.lte-benefits li::before{content:'';position:absolute;left:0;top:14px;width:8px;height:8px;border-radius:50%;background:var(--purple);opacity:0.6}
+
+/* REVIEWS */
+.reviews-header{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:32px}
+.reviews-score{font-family:Hellix,system-ui,sans-serif;font-size:clamp(40px,5vw,64px);font-weight:600;color:var(--teal);line-height:1}
+.reviews-meta{display:flex;flex-direction:column;gap:4px}
+.reviews-stars{display:flex;gap:3px}
+.reviews-stars svg{width:22px;height:22px;fill:var(--teal)}
+.reviews-count{font-size:15px;color:rgba(255,255,255,0.60)}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:800px){.reviews-grid{grid-template-columns:1fr}}
+.review{padding:clamp(20px,2vw,28px);border:1px solid var(--glass-border);border-radius:8px;background:var(--glass-bg)}
+.review-stars{display:flex;gap:2px;margin-bottom:8px}
+.review-stars svg{width:14px;height:14px;fill:var(--teal)}
+.review-text{font-size:15px;color:var(--text-mid);line-height:1.55;margin-bottom:10px}
+.review-author{font-size:13px;color:rgba(255,255,255,0.50)}
+
+/* FAQ */
+.faq-list{max-width:720px;margin:36px auto 0}
+.faq-item{border-bottom:1px solid var(--glass-border)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:20px 0;cursor:pointer;font-family:Roobert,system-ui,sans-serif;font-size:17px;font-weight:500;color:var(--text-bright);transition:color 0.3s}
+.faq-q:hover{color:var(--teal)}
+.faq-q svg{width:20px;height:20px;flex-shrink:0;transition:transform 0.3s;fill:rgba(255,255,255,0.40)}
+.faq-item.open .faq-q svg{transform:rotate(45deg)}
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows 0.35s ease}
+.faq-item.open .faq-a{grid-template-rows:1fr}
+.faq-a-inner{overflow:hidden}
+.faq-a-inner p{padding:0 0 20px;font-size:16px;color:var(--text-mid);line-height:1.65}
+
+/* LOCKUP */
+.lockup-section{position:relative;display:flex;align-items:center;justify-content:center;padding:clamp(60px,10vh,120px) var(--section-pad-x);background:var(--bg)}
+.lockup-video{max-width:480px;width:100%;display:block}
+
+/* COOKIE CONSENT */
+.cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:200;display:flex;align-items:center;gap:clamp(16px,3vw,28px);padding:16px clamp(20px,4vw,48px);background:rgba(6,6,18,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid rgba(255,255,255,0.07);transform:translateY(100%);transition:transform 0.5s cubic-bezier(0.16,1,0.3,1)}
+.cookie-banner.show{transform:translateY(0)}
+.cookie-banner-video{width:48px;height:48px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.cookie-banner-text{flex:1;font-size:14px;color:rgba(255,255,255,0.70);line-height:1.5}
+.cookie-banner-text a{color:var(--teal);text-decoration:underline;text-underline-offset:2px}
+.cookie-banner-actions{display:flex;gap:10px;flex-shrink:0}
+.cookie-btn{padding:10px 20px;font-family:Roobert,system-ui,sans-serif;font-size:13px;font-weight:600;border-radius:6px;border:none;cursor:pointer;transition:background 0.3s,transform 0.2s}
+.cookie-btn.accept{background:var(--teal);color:var(--bg)}
+.cookie-btn.accept:hover{background:#4fece0;transform:translateY(-1px)}
+.cookie-btn.decline{background:transparent;color:rgba(255,255,255,0.60);border:1px solid rgba(255,255,255,0.12)}
+.cookie-btn.decline:hover{border-color:rgba(255,255,255,0.25);color:rgba(255,255,255,0.80)}
+@media(max-width:640px){.cookie-banner{flex-wrap:wrap;gap:12px}.cookie-banner-video{width:36px;height:36px}.cookie-banner-actions{width:100%;justify-content:flex-end}}
+
+/* FOOTER */
+.footer{padding:48px var(--section-pad-x);display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.05)}
+.footer-left{font-size:13px;color:rgba(255,255,255,0.45)}
+.footer-tagline{font-size:14px;color:rgba(255,255,255,0.60);font-style:italic}
+@media(max-width:640px){.footer{flex-direction:column;gap:12px;text-align:center}}
+
+@keyframes pulse{0%,100%{opacity:0.3;transform:scale(1)}50%{opacity:0.35;transform:scale(1.02)}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html"><img class="nav-logo" src="img/nexar-logo-white.png" alt="Nexar"></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="consumer.html" class="active">Drivers</a>
+    <a href="fleet.html">Fleet</a>
+    <a href="enterprise.html">Enterprise</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-glow"></div>
+    <img class="hero-particle" src="particles/consumer-hero-road.png" alt="" loading="lazy">
+    <svg class="hero-noise" width="100%" height="100%">
+      <filter id="nch"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nch)"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <div class="hero-trust tab-reveal">
+      <div class="hero-trust-stars">
+        <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+        <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+        <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+        <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+        <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+      </div>
+      <span class="hero-trust-text">4.8/5 from 4,513 reviews</span>
+    </div>
+    <div class="hero-headline tab-reveal">Protect your drive.</div>
+    <div class="hero-sub tab-reveal">
+      If something happens on the road, you have proof. Not a story, not a memory. Verified footage, timestamped and GPS-tagged. Trusted by 350,000+ drivers.
+    </div>
+    <div class="hero-ctas tab-reveal">
+      <a href="#shop" class="btn-primary">Shop dashcams</a>
+      <a href="#how-it-works" class="btn-ghost">How it works</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT TIERS -->
+<div class="tab-divider"></div>
+<section class="tab-section" id="shop">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:5%;right:-8%;width:45%;height:60%;background:radial-gradient(ellipse,rgba(35,231,216,0.06),transparent 70%)"></div>
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nc0"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nc0)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full" style="margin-left:auto;margin-right:auto;">
+    <div class="tab-chapter teal tab-reveal" style="text-align:center;">Choose Your Camera</div>
+    <div class="tab-headline tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">Every drive deserves a witness.</div>
+
+    <div class="products tab-reveal">
+      <!-- FRONT ONLY -->
+      <div class="product">
+        <img class="product-img" src="img/beam2-front.png" alt="Nexar Beam2 dashcam" loading="lazy">
+        <div class="product-body">
+          <div class="product-name">Beam2</div>
+          <div class="product-desc">Front camera. The essential dashcam for everyday drivers.</div>
+          <div class="product-price">$239.95</div>
+          <div class="product-price-note">One-time purchase. No subscription required.</div>
+          <ul class="product-features">
+            <li>1080p Full HD recording</li>
+            <li>135&deg; wide-angle lens</li>
+            <li>Automatic incident capture</li>
+            <li>Free cloud backup via app</li>
+            <li>GPS and speed overlay</li>
+          </ul>
+          <a href="https://getnexar.com" class="btn-primary">Buy Beam2</a>
+        </div>
+      </div>
+
+      <!-- FRONT + REAR -->
+      <div class="product featured">
+        <div class="product-badge">Most Popular</div>
+        <img class="product-img" src="img/beam2-dual.png" alt="Nexar Beam2 front and rear" loading="lazy">
+        <div class="product-body">
+          <div class="product-name">Beam2 Front + Interior</div>
+          <div class="product-desc">Dual coverage. See the road and the cabin.</div>
+          <div class="product-price">$259.95</div>
+          <div class="product-price-note">One-time purchase. No subscription required.</div>
+          <ul class="product-features">
+            <li>Two-camera system</li>
+            <li>Interior IR night vision</li>
+            <li>Automatic incident capture</li>
+            <li>Free cloud backup via app</li>
+            <li>GPS and speed overlay</li>
+            <li>Parking mode monitoring</li>
+          </ul>
+          <a href="https://getnexar.com" class="btn-primary">Buy Beam2 Dual</a>
+        </div>
+      </div>
+
+      <!-- FULL COVERAGE -->
+      <div class="product">
+        <img class="product-img" src="img/nexar-one.png" alt="Nexar One full coverage" loading="lazy">
+        <div class="product-body">
+          <div class="product-name">Nexar One</div>
+          <div class="product-desc">Full coverage. Front, rear, and interior. Total protection.</div>
+          <div class="product-price">$369.95</div>
+          <div class="product-price-note">One-time purchase. No subscription required.</div>
+          <ul class="product-features">
+            <li>Three-camera system</li>
+            <li>4K front recording</li>
+            <li>Interior + rear coverage</li>
+            <li>Emergency SOS alerts</li>
+            <li>Live view from anywhere</li>
+            <li>Parking mode with alerts</li>
+            <li>Built-in LTE connectivity</li>
+          </ul>
+          <a href="https://getnexar.com" class="btn-primary">Buy Nexar One</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS: IN CRISIS / IN CONFLICT / IN CALM -->
+<div class="tab-divider"></div>
+<section class="tab-section alt">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:10%;left:-10%;width:50%;height:65%;background:radial-gradient(ellipse,rgba(161,131,250,0.06),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/consumer-dual-intersection.png" alt="" loading="lazy">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nc1"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nc1)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full" style="margin-left:auto;margin-right:auto;">
+    <div class="tab-chapter purple tab-reveal" style="text-align:center;">Real drivers, real stories</div>
+    <div class="tab-headline tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">When it matters, you have proof.</div>
+
+    <div class="testimonials tab-reveal">
+      <div class="testimonial">
+        <div class="testimonial-scenario">In crisis</div>
+        <div class="testimonial-quote">"I sent the video to the insurance company, they completely reimbursed me for any of my costs."</div>
+        <div class="testimonial-author"><strong>Sierra Townsend</strong>, Cedartown, Georgia</div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-scenario" style="color:var(--purple);">In conflict</div>
+        <div class="testimonial-quote">"There are three sides to every story: my story, the other driver's story, and the truth. Nexar gives you the truth."</div>
+        <div class="testimonial-author"><strong>Michael Gargan</strong>, Merrick, New York</div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-scenario">In calm</div>
+        <div class="testimonial-quote">"Incredibly comforting to know that we're going to find out why it happened, when it happened, how it happened."</div>
+        <div class="testimonial-author"><strong>William Rivers</strong>, Tampa, Florida</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div class="tab-divider"></div>
+<section class="tab-section" id="how-it-works">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:5%;right:-5%;width:40%;height:55%;background:radial-gradient(ellipse,rgba(35,231,216,0.06),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/consumer-features-data.png" alt="" loading="lazy">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nc2"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nc2)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full" style="margin-left:auto;margin-right:auto;">
+    <div class="tab-chapter teal tab-reveal" style="text-align:center;">3 steps to certainty</div>
+    <div class="tab-headline tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">Set it up in minutes.</div>
+
+    <div class="steps tab-reveal">
+      <div class="step">
+        <div class="step-title">Mount it</div>
+        <div class="step-desc">Attach the magnetic mount to your windshield. Takes under 60 seconds. No tools, no wiring, no hassle.</div>
+      </div>
+      <div class="step">
+        <div class="step-title">Connect the app</div>
+        <div class="step-desc">Download the free Nexar app. Pair your camera via Bluetooth. Your footage syncs automatically to the cloud.</div>
+      </div>
+      <div class="step">
+        <div class="step-title">Drive</div>
+        <div class="step-desc">The camera records continuously, detects incidents automatically, and saves critical moments. You just drive.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<div class="tab-divider"></div>
+<section class="tab-section alt">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:15%;left:5%;width:40%;height:50%;background:radial-gradient(ellipse,rgba(161,131,250,0.05),transparent 70%)"></div>
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nc3"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nc3)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full" style="margin-left:auto;margin-right:auto;">
+    <div class="tab-chapter teal tab-reveal" style="text-align:center;">Built for real roads</div>
+    <div class="tab-headline tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">Everything you need. Nothing you do not.</div>
+
+    <div class="feature-strip tab-reveal">
+      <div class="feature-item">
+        <div class="feature-item-title">Incident detection</div>
+        <div class="feature-item-desc">Automatic recording of any safety event. No button to press.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-item-title">Cloud backup</div>
+        <div class="feature-item-desc">Footage saves to the cloud in real time. Even if the camera is damaged, your proof is safe.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-item-title">Real-time alerts</div>
+        <div class="feature-item-desc">Speed alerts, collision warnings, tailgating detection. The road ahead, understood.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-item-title">Parking mode</div>
+        <div class="feature-item-desc">Camera watches your car while parked. Hit-and-runs, break-ins, captured automatically.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-item-title">GPS tracking</div>
+        <div class="feature-item-desc">Every clip tagged with location and speed. Your footage becomes verifiable evidence.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-item-title">Night vision</div>
+        <div class="feature-item-desc">Infrared sensor captures clear interior footage even in complete darkness.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-item-title">Share instantly</div>
+        <div class="feature-item-desc">Send clips to your insurer, your lawyer, or your family with one tap.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-item-title">Live view</div>
+        <div class="feature-item-desc">Check your car from anywhere. See what is happening at the tap of a button.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LTE CONNECTIVITY -->
+<div class="tab-divider"></div>
+<section class="tab-section">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:10%;right:-10%;width:45%;height:60%;background:radial-gradient(ellipse,rgba(35,231,216,0.06),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/network-roads.png" alt="" loading="lazy">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nc4"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nc4)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner wide">
+    <div class="tab-chapter purple tab-reveal">Stay connected</div>
+    <div class="tab-headline tab-reveal">LTE connectivity plan</div>
+
+    <div class="lte-card tab-reveal">
+      <div>
+        <div class="lte-price">$9.99<span>/mo</span></div>
+        <div class="tab-copy" style="margin-top:12px;margin-bottom:0;">
+          Always connected, always uploading. No phone tethering, no Wi-Fi needed. Your camera works independently.
+        </div>
+      </div>
+      <div>
+        <ul class="lte-benefits">
+          <li>Automatic cloud upload over cellular</li>
+          <li>Live view from anywhere in the world</li>
+          <li>Real-time incident alerts to your phone</li>
+          <li>Parking mode notifications</li>
+          <li>Emergency SOS with location sharing</li>
+          <li>No contract. Cancel anytime.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<div class="tab-divider"></div>
+<section class="tab-section alt">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:10%;left:-5%;width:40%;height:55%;background:radial-gradient(ellipse,rgba(161,131,250,0.05),transparent 70%)"></div>
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nc5"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nc5)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full" style="margin-left:auto;margin-right:auto;">
+    <div class="tab-chapter teal tab-reveal" style="text-align:center;">What drivers say</div>
+
+    <div class="reviews-header tab-reveal" style="justify-content:center;">
+      <div class="reviews-score">4.8</div>
+      <div class="reviews-meta">
+        <div class="reviews-stars">
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+        </div>
+        <div class="reviews-count">Based on 4,513 reviews</div>
+      </div>
+    </div>
+
+    <div class="reviews-grid tab-reveal">
+      <div class="review">
+        <div class="review-stars">
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+        </div>
+        <div class="review-text">Crystal clear 4K video quality, even at night. The AI alerts have already saved me from a potential accident. Best dashcam I have ever owned.</div>
+        <div class="review-author">Mike T., Nexar One owner</div>
+      </div>
+      <div class="review">
+        <div class="review-stars">
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+        </div>
+        <div class="review-text">Love the cloud storage feature. I can review clips from my phone without removing the SD card. Setup was super easy too.</div>
+        <div class="review-author">Sarah L., Beam2 owner</div>
+      </div>
+      <div class="review">
+        <div class="review-stars">
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.51L10 13.38l-4.94 2.74L6 10.61l-4-3.9 5.61-.87z"/></svg>
+        </div>
+        <div class="review-text">The live view feature gives me peace of mind when my car is parked. Worth every penny for the security it provides.</div>
+        <div class="review-author">David R., Nexar One owner</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA SAFETY -->
+<div class="tab-divider"></div>
+<section class="tab-section">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:15%;right:-5%;width:40%;height:55%;background:radial-gradient(ellipse,rgba(35,231,216,0.06),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/trust-dna.png" alt="" loading="lazy">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nc6"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nc6)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner">
+    <div class="tab-chapter purple tab-reveal">Your data, your control</div>
+    <div class="tab-headline tab-reveal">Privacy by design.</div>
+    <div class="tab-copy tab-reveal">
+      Your footage belongs to you. Nexar never sells personal video. All clips are encrypted end-to-end. You choose what to keep, what to share, and what to delete. If you contribute anonymized driving data to improve road safety, your identity is never attached.
+    </div>
+    <div class="tab-copy tab-reveal" style="margin-bottom:0;">
+      SOC 2 Type II certified. GDPR compliant. Transparent data practices published at nexar.com/privacy.
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<div class="tab-divider"></div>
+<section class="tab-section alt" id="faq">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:10%;left:-5%;width:40%;height:50%;background:radial-gradient(ellipse,rgba(161,131,250,0.04),transparent 70%)"></div>
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nc7"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nc7)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full" style="margin-left:auto;margin-right:auto;">
+    <div class="tab-chapter teal tab-reveal" style="text-align:center;">Frequently asked</div>
+    <div class="tab-headline tab-reveal" style="text-align:center;margin-left:auto;margin-right:auto;">Questions and answers</div>
+
+    <div class="faq-list tab-reveal">
+      <div class="faq-item">
+        <div class="faq-q">Do I need a subscription to use my Nexar dashcam?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>No. Every Nexar dashcam works out of the box with free cloud backup via the Nexar app. The optional LTE plan ($9.99/mo) adds cellular connectivity, live view, and real-time alerts, but it is not required.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What happens if my camera is damaged in an accident?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>Your footage is already in the cloud. Nexar syncs clips automatically, so even if the camera is destroyed, your evidence is safe and accessible from the app.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How do I install the dashcam?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>Mount the magnetic base to your windshield, attach the camera, and plug into your car's USB or 12V outlet. Download the Nexar app, pair via Bluetooth, and you are recording. The entire process takes about 3 minutes.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Does Nexar record when my car is parked?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>Yes. With parking mode enabled, the camera activates when it detects motion or an impact. You receive a notification on your phone with the captured footage.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How much storage do I get?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>Nexar provides free cloud storage for all incident clips and important moments. Continuous recording loops on the SD card (included). With the LTE plan, storage is expanded and clips are uploaded in real time.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I share footage with my insurance company?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>Yes. Tap any clip in the Nexar app and share it via email, text, or direct download. Many insurance companies accept Nexar footage as evidence for claims.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What is the video quality?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>Beam2 records in 1080p Full HD. Nexar One records in 4K for the front camera and 1080p for interior and rear cameras. All models include HDR for clear footage in any lighting condition.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Does Nexar work in extreme temperatures?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>Yes. Nexar cameras are designed to withstand temperatures from -4&deg;F to 158&deg;F (-20&deg;C to 70&deg;C). A built-in supercapacitor replaces lithium batteries for safer operation in hot climates.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Will the dashcam drain my car battery?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>No. Nexar cameras draw minimal power and include a built-in voltage cutoff that prevents your car battery from draining below a safe level.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is my data private?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>Yes. Your footage is encrypted end-to-end and belongs to you. Nexar never sells personal video. All data practices are SOC 2 Type II certified and GDPR compliant.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What is the return policy?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>Nexar offers a 30-day return policy for unused cameras in original packaging. All cameras include a 1-year manufacturer warranty. Extended warranty options are available at checkout.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I use Nexar without the app?<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>The camera records independently as soon as it has power. However, the free Nexar app is required for cloud backup, sharing clips, and accessing features like real-time alerts and parking notifications.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA -->
+<div class="tab-divider"></div>
+<section class="tab-section">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:20%;left:15%;width:50%;height:60%;background:radial-gradient(ellipse,rgba(35,231,216,0.07),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/consumer-cta-sphere.png" alt="" loading="lazy" style="left:0;right:auto;">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="nc8"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#nc8)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner center">
+    <div class="tab-headline tab-reveal" style="font-size:clamp(32px,5vw,56px);">Start driving with proof.</div>
+    <div class="tab-copy tab-reveal" style="margin:0 auto 16px;text-align:center;max-width:460px;">
+      350,000+ drivers trust Nexar. Starting at $239.95 with free cloud backup. No subscription required.
+    </div>
+    <div class="tab-reveal" style="margin-top:32px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://getnexar.com" class="btn-primary" style="padding:18px 48px;font-size:17px;">Shop dashcams</a>
+      <a href="#faq" class="btn-ghost" style="padding:18px 36px;font-size:17px;">Read FAQ</a>
+    </div>
+  </div>
+</section>
+
+<!-- VERIFYING AI LOCKUP -->
+<div style="height:1px;background:rgba(255,255,255,0.07)"></div>
+<section class="lockup-section">
+  <video class="lockup-video" autoplay loop muted playsinline>
+    <source src="video/verifying-ai-lockup.webm" type="video/webm">
+    <source src="video/verifying-ai-lockup.mp4" type="video/mp4">
+  </video>
+</section>
+
+<!-- COOKIE CONSENT -->
+<div class="cookie-banner" id="cookieBanner">
+  <video class="cookie-banner-video" autoplay loop muted playsinline>
+    <source src="video/space-cookie.mp4" type="video/mp4">
+  </video>
+  <div class="cookie-banner-text">
+    We use cookies to improve your experience and analyze site traffic. By continuing, you agree to our <a href="#">Cookie Policy</a>.
+  </div>
+  <div class="cookie-banner-actions">
+    <button class="cookie-btn decline" onclick="dismissCookie()">Decline</button>
+    <button class="cookie-btn accept" onclick="dismissCookie()">Accept</button>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-left">&copy; 2026 Nexar. Privacy. Terms.</div>
+  <div class="footer-tagline">Reality beats rehearsal.</div>
+</footer>
+
+<script>
+/* Scroll reveal */
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target)}})},{threshold:0.15});
+document.querySelectorAll('.tab-reveal').forEach(el=>obs.observe(el));
+
+/* FAQ accordion */
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement;
+    const wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen)item.classList.add('open');
+  });
+});
+
+/* Cookie banner */
+function dismissCookie(){document.getElementById('cookieBanner').classList.remove('show')}
+setTimeout(()=>{document.getElementById('cookieBanner').classList.add('show')},2000);
+</script>
+</body>
+</html>

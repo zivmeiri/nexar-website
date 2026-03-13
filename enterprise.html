@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise | Nexar</title>
+<meta name="description" content="Edge-to-edge operating system for autonomous AI. 10B+ real-world miles of verified driving data powering AV, insurance, cities, and foundation models.">
+<style>
+@font-face{font-family:'Hellix';src:url('fonts/Hellix-SemiBold.otf') format('opentype');font-weight:600;font-display:swap}
+@font-face{font-family:'Hellix';src:url('fonts/Hellix-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'Roobert';src:url('fonts/Roobert-Regular.otf') format('opentype');font-weight:400;font-display:swap}
+@font-face{font-family:'Roobert';src:url('fonts/Roobert-Medium.otf') format('opentype');font-weight:500;font-display:swap}
+@font-face{font-family:'Roobert';src:url('fonts/Roobert-SemiBold.otf') format('opentype');font-weight:600;font-display:swap}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060612;--teal:#23e7d8;--purple:#a183fa;--light-purple:#c084fc;
+  --white:#fafafa;--text-bright:rgba(255,255,255,0.92);--text-mid:rgba(255,255,255,0.78);
+  --glass-border:rgba(255,255,255,0.07);--glass-bg:rgba(255,255,255,0.035);
+  --section-pad-x:clamp(28px,8vw,140px);--section-pad-y:clamp(80px,12vh,160px);
+}
+html{background:var(--bg);color:var(--white);font-family:Roobert,system-ui,sans-serif;font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{background:var(--bg);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,4vw,48px);height:64px;background:rgba(6,6,18,0.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.05)}
+.nav-logo{height:22px;width:auto}
+.nav-links{display:flex;align-items:center;gap:clamp(16px,3vw,36px)}
+.nav-links a{font-size:14px;font-weight:500;letter-spacing:0.02em;color:rgba(255,255,255,0.70);transition:color 0.3s}
+.nav-links a:hover{color:var(--white)}
+.nav-links a.active{color:var(--teal);font-weight:600}
+@media(max-width:640px){.nav-links{display:none}}
+
+/* SECTION SYSTEM */
+.tab-section{position:relative;overflow:hidden;padding:var(--section-pad-y) var(--section-pad-x)}
+.tab-section.alt{background:rgba(255,255,255,0.015)}
+.tab-bg{position:absolute;inset:0;z-index:0}
+.tab-bg .tab-glow{position:absolute;border-radius:50%;filter:blur(80px)}
+.tab-bg .tab-particle-img{position:absolute;right:0;top:0;width:55%;height:100%;object-fit:cover;opacity:0.3;mask-image:radial-gradient(ellipse 80% 70% at 70% 50%,black 30%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 80% 70% at 70% 50%,black 30%,transparent 100%);animation:pulse 7s ease-in-out infinite}
+.tab-bg .tab-noise{position:absolute;inset:0;opacity:0.04;pointer-events:none}
+.tab-content-inner{position:relative;z-index:3;max-width:720px}
+.tab-content-inner.wide{max-width:960px}
+.tab-content-inner.center{max-width:800px;margin-left:auto;margin-right:auto;text-align:center}
+.tab-content-inner.full{max-width:1100px}
+.tab-chapter{font-family:Roobert,system-ui,sans-serif;font-size:13px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:16px}
+.tab-chapter.teal{color:var(--teal)}
+.tab-chapter.purple{color:var(--purple)}
+.tab-headline{font-family:Hellix,system-ui,sans-serif;font-size:clamp(28px,4vw,52px);font-weight:600;color:var(--text-bright);letter-spacing:-1px;line-height:1.1;margin-bottom:20px}
+.tab-copy{font-family:Roobert,system-ui,sans-serif;font-size:18px;color:var(--text-mid);max-width:580px;line-height:1.65;margin-bottom:28px}
+.tab-stat-row{display:flex;gap:clamp(24px,4vw,48px);flex-wrap:wrap;margin-top:24px}
+.tab-stat .n{font-family:Roobert,system-ui,sans-serif;font-size:clamp(24px,3.5vw,44px);font-weight:600;color:var(--teal);line-height:1}
+.tab-stat.purple .n{color:var(--purple)}
+.tab-stat .l{font-family:Roobert,system-ui,sans-serif;font-size:14px;color:rgba(255,255,255,0.70);margin-top:6px;line-height:1.4}
+.tab-reveal{opacity:0;transform:translateY(24px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
+.tab-reveal.visible{opacity:1;transform:translateY(0)}
+.tab-divider{height:1px;background:rgba(255,255,255,0.07)}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding:120px var(--section-pad-x) 80px}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-glow{position:absolute;top:10%;left:-8%;width:50%;height:65%;background:radial-gradient(ellipse,rgba(35,231,216,0.08),transparent 70%);border-radius:50%;filter:blur(80px)}
+.hero-glow-2{position:absolute;bottom:5%;right:-10%;width:40%;height:50%;background:radial-gradient(ellipse,rgba(161,131,250,0.06),transparent 70%);border-radius:50%;filter:blur(80px)}
+.hero-particle{position:absolute;right:-5%;top:5%;width:60%;height:90%;object-fit:cover;opacity:0.35;mask-image:radial-gradient(ellipse 85% 80% at 65% 50%,black 25%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 85% 80% at 65% 50%,black 25%,transparent 100%);animation:hero-pulse 7s ease-in-out infinite}
+.hero-noise{position:absolute;inset:0;opacity:0.04;pointer-events:none}
+.hero-content{position:relative;z-index:3;max-width:700px}
+.hero-headline{font-family:Hellix,system-ui,sans-serif;font-size:clamp(36px,6vw,80px);font-weight:600;line-height:1.05;letter-spacing:-1.76px;color:var(--text-bright);margin-bottom:28px}
+.hero-sub{font-family:Roobert,system-ui,sans-serif;font-size:clamp(17px,2vw,22px);line-height:1.6;color:var(--text-mid);max-width:560px;margin-bottom:40px}
+
+/* BUTTONS */
+.btn-primary{display:inline-block;padding:16px 36px;background:var(--teal);color:var(--bg);font-family:Roobert,system-ui,sans-serif;font-size:16px;font-weight:600;border-radius:6px;border:none;cursor:pointer;transition:background 0.3s,transform 0.2s}
+.btn-primary:hover{background:#4fece0;transform:translateY(-1px)}
+.btn-ghost{display:inline-block;padding:16px 36px;background:transparent;color:var(--white);font-family:Roobert,system-ui,sans-serif;font-size:16px;font-weight:500;border-radius:6px;border:1px solid rgba(255,255,255,0.14);cursor:pointer;transition:border-color 0.3s}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.3)}
+
+/* PRODUCTS GRID */
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
+@media(max-width:800px){.products-grid{grid-template-columns:1fr}}
+.product-card{padding:clamp(28px,3vw,40px);border:1px solid var(--glass-border);border-radius:12px;background:rgba(6,6,18,0.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:border-color 0.4s,transform 0.3s}
+.product-card:hover{border-color:rgba(255,255,255,0.14);transform:translateY(-3px)}
+.product-icon{font-size:24px;width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-family:Roobert,system-ui,sans-serif;font-weight:600;letter-spacing:-0.5px}
+.product-icon.teal{background:rgba(35,231,216,0.1);color:var(--teal);border:1px solid rgba(35,231,216,0.2)}
+.product-icon.purple{background:rgba(161,131,250,0.1);color:var(--purple);border:1px solid rgba(161,131,250,0.2)}
+.product-name{font-family:Hellix,system-ui,sans-serif;font-size:clamp(20px,2.5vw,26px);font-weight:600;color:var(--text-bright);letter-spacing:-0.3px;margin-bottom:8px}
+.product-tag{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:12px}
+.product-desc{font-size:16px;color:var(--text-mid);line-height:1.6}
+
+/* USE CASES */
+.use-cases{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:36px}
+@media(max-width:700px){.use-cases{grid-template-columns:1fr}}
+.use-case{padding:clamp(28px,3vw,40px);border:1px solid var(--glass-border);border-radius:8px;background:var(--glass-bg);transition:border-color 0.4s}
+.use-case:hover{border-color:rgba(255,255,255,0.14)}
+.use-case-label{font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+.use-case-title{font-family:Hellix,system-ui,sans-serif;font-size:clamp(20px,2.5vw,26px);font-weight:600;color:var(--text-bright);letter-spacing:-0.3px;margin-bottom:10px}
+.use-case-desc{font-size:16px;color:var(--text-mid);line-height:1.6}
+
+/* PARTNER LOGOS */
+.partner-row{display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:center;margin-top:32px}
+.partner-name{font-family:Roobert,system-ui,sans-serif;font-size:clamp(16px,2vw,22px);font-weight:500;color:rgba(255,255,255,0.45);letter-spacing:0.04em;transition:color 0.3s}
+.partner-name:hover{color:rgba(255,255,255,0.70)}
+
+/* NEWS GRID */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
+@media(max-width:800px){.news-grid{grid-template-columns:1fr}}
+.news-card{border:1px solid var(--glass-border);border-radius:12px;overflow:hidden;background:rgba(6,6,18,0.6);transition:border-color 0.4s,transform 0.3s}
+.news-card:hover{border-color:rgba(255,255,255,0.14);transform:translateY(-3px)}
+.news-card-img{width:100%;height:160px;background:rgba(255,255,255,0.025);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.news-card-img img{width:100%;height:100%;object-fit:cover;opacity:0.4;mask-image:linear-gradient(to bottom,black 50%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,black 50%,transparent 100%)}
+.news-card-body{padding:clamp(20px,2vw,28px)}
+.news-date{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.60);margin-bottom:8px}
+.news-title{font-family:Hellix,system-ui,sans-serif;font-size:clamp(17px,2vw,22px);font-weight:600;color:var(--text-bright);letter-spacing:-0.3px;line-height:1.25;margin-bottom:8px}
+.news-excerpt{font-size:15px;color:var(--text-mid);line-height:1.5}
+
+/* VERA SECTION */
+.vera-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
+@media(max-width:800px){.vera-grid{grid-template-columns:1fr}}
+.vera-card{padding:clamp(28px,3vw,40px);border:1px solid var(--glass-border);border-radius:12px;background:rgba(6,6,18,0.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:border-color 0.4s,transform 0.3s}
+.vera-card:hover{border-color:rgba(35,231,216,0.2);transform:translateY(-3px)}
+.vera-card-icon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:22px;background:rgba(35,231,216,0.08);border:1px solid rgba(35,231,216,0.15)}
+.vera-card-title{font-family:Hellix,system-ui,sans-serif;font-size:clamp(18px,2vw,22px);font-weight:600;color:var(--text-bright);letter-spacing:-0.3px;margin-bottom:8px}
+.vera-card-desc{font-size:16px;color:var(--text-mid);line-height:1.6}
+
+/* LOCKUP */
+.lockup-section{position:relative;display:flex;align-items:center;justify-content:center;padding:clamp(60px,10vh,120px) var(--section-pad-x);background:var(--bg)}
+.lockup-video{max-width:480px;width:100%;display:block}
+
+/* COOKIE CONSENT */
+.cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:200;display:flex;align-items:center;gap:clamp(16px,3vw,28px);padding:16px clamp(20px,4vw,48px);background:rgba(6,6,18,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid rgba(255,255,255,0.07);transform:translateY(100%);transition:transform 0.5s cubic-bezier(0.16,1,0.3,1)}
+.cookie-banner.show{transform:translateY(0)}
+.cookie-banner-video{width:48px;height:48px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.cookie-banner-text{flex:1;font-size:14px;color:rgba(255,255,255,0.70);line-height:1.5}
+.cookie-banner-text a{color:var(--teal);text-decoration:underline;text-underline-offset:2px}
+.cookie-banner-actions{display:flex;gap:10px;flex-shrink:0}
+.cookie-btn{padding:10px 20px;font-family:Roobert,system-ui,sans-serif;font-size:13px;font-weight:600;border-radius:6px;border:none;cursor:pointer;transition:background 0.3s,transform 0.2s}
+.cookie-btn.accept{background:var(--teal);color:var(--bg)}
+.cookie-btn.accept:hover{background:#4fece0;transform:translateY(-1px)}
+.cookie-btn.decline{background:transparent;color:rgba(255,255,255,0.60);border:1px solid rgba(255,255,255,0.12)}
+.cookie-btn.decline:hover{border-color:rgba(255,255,255,0.25);color:rgba(255,255,255,0.80)}
+@media(max-width:640px){.cookie-banner{flex-wrap:wrap;gap:12px}.cookie-banner-video{width:36px;height:36px}.cookie-banner-actions{width:100%;justify-content:flex-end}}
+
+/* FOOTER */
+.footer{padding:48px var(--section-pad-x);display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.05)}
+.footer-left{font-size:13px;color:rgba(255,255,255,0.45)}
+.footer-tagline{font-size:14px;color:rgba(255,255,255,0.60);font-style:italic}
+@media(max-width:640px){.footer{flex-direction:column;gap:12px;text-align:center}}
+
+@keyframes pulse{0%,100%{opacity:0.3;transform:scale(1)}50%{opacity:0.35;transform:scale(1.02)}}
+@keyframes hero-pulse{0%,100%{opacity:0.35;transform:scale(1)}50%{opacity:0.4;transform:scale(1.02)}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html"><img class="nav-logo" src="img/nexar-logo-white.png" alt="Nexar"></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="consumer.html">Drivers</a>
+    <a href="fleet.html">Fleet</a>
+    <a href="enterprise.html" class="active">Enterprise</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-glow"></div>
+    <div class="hero-glow-2"></div>
+    <img class="hero-particle" src="particles/enterprise-hero-data.png" alt="" loading="lazy">
+    <svg class="hero-noise" width="100%" height="100%">
+      <filter id="neh"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#neh)"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <div class="tab-chapter teal tab-reveal">Nexar Enterprise</div>
+    <div class="hero-headline tab-reveal">AI you can verify.<br>Data you can <span style="color:var(--teal)">trust.</span></div>
+    <div class="hero-sub tab-reveal">
+      Every mile verified. Every event real. 10 billion miles of ground truth from 350,000 cameras on actual roads. No synthetic shortcuts. No simulated assumptions. The verified intelligence layer for autonomous AI, insurance, and infrastructure.
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap" class="tab-reveal">
+      <a href="#products" class="btn-primary">Explore our products</a>
+      <a href="mailto:enterprise@getnexar.com" class="btn-ghost">Talk to our team</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<div class="tab-divider"></div>
+<section class="tab-section alt" id="products">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:10%;right:-10%;width:45%;height:65%;background:radial-gradient(ellipse,rgba(161,131,250,0.07),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/enterprise-verticals-road.png" alt="" loading="lazy">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="ne1"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#ne1)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full">
+    <div class="tab-chapter purple tab-reveal">Products</div>
+    <div class="tab-headline tab-reveal">Verified truth, built into every product.</div>
+
+    <div class="products-grid tab-reveal">
+      <div class="product-card">
+        <div class="product-icon teal">B</div>
+        <div class="product-name">BADAS</div>
+        <div class="product-tag">Collision Anticipation</div>
+        <div class="product-desc">Beyond ADAS. Predicts collisions 4.9 seconds before impact, trained on 15M verified real-world safety events. Not simulated. Not synthetic. Verified by Nexar.</div>
+      </div>
+      <div class="product-card">
+        <div class="product-icon purple">A</div>
+        <div class="product-name">APEX</div>
+        <div class="product-tag">Data Engine</div>
+        <div class="product-desc">Verified, structured, labeled driving data at scale. Real edge-case libraries, real pre-collision scenarios. The ground truth your models need to move from testing to trust.</div>
+      </div>
+      <div class="product-card">
+        <div class="product-icon teal">N</div>
+        <div class="product-name">Nexar Stack</div>
+        <div class="product-tag">Full Platform</div>
+        <div class="product-desc">The full verified intelligence platform. Crowdsourced sensors, real-time mapping, and predictive AI. From edge to cloud, every signal traced back to a real camera on a real road.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<div class="tab-divider"></div>
+<section class="tab-section" id="use-cases">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:5%;left:-10%;width:50%;height:70%;background:radial-gradient(ellipse,rgba(35,231,216,0.07),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/enterprise-trust-neon.png" alt="" loading="lazy">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="ne2"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#ne2)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner wide">
+    <div class="tab-chapter teal tab-reveal">Use Cases</div>
+    <div class="tab-headline tab-reveal">Verified intelligence. Every vertical.</div>
+
+    <div class="use-cases tab-reveal">
+      <div class="use-case">
+        <div class="use-case-label">AV / OEM</div>
+        <div class="use-case-title">Autonomous vehicles</div>
+        <div class="use-case-desc">Verified pre-collision scenarios, real edge-case libraries, and continuous validation data. Your perception system learns from what actually happened, not what a simulator guessed might happen.</div>
+      </div>
+      <div class="use-case">
+        <div class="use-case-label">Insurance</div>
+        <div class="use-case-title">Underwriting and claims</div>
+        <div class="use-case-desc">Replace estimates with verified truth. Real incident footage, verified driving behavior, and road-risk intelligence that transforms claims from he-said-she-said into evidence-based resolution.</div>
+      </div>
+      <div class="use-case">
+        <div class="use-case-label">Cities / DOT</div>
+        <div class="use-case-title">Infrastructure intelligence</div>
+        <div class="use-case-desc">Verified road condition monitoring, intersection safety analysis, and traffic flow patterns. See what's actually happening on your roads, verified by cameras that were there.</div>
+      </div>
+      <div class="use-case">
+        <div class="use-case-label">AI / Data Science</div>
+        <div class="use-case-title">Foundation model training</div>
+        <div class="use-case-desc">Verified, structured, labeled visual data for training and validating AI systems. The edge cases your synthetic pipeline can't generate, because they only happen on actual roads. Verified by Nexar.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUSTED BY -->
+<div class="tab-divider"></div>
+<section class="tab-section alt" id="partners">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:15%;left:20%;width:40%;height:55%;background:radial-gradient(ellipse,rgba(161,131,250,0.06),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/enterprise-cta-intersection.png" alt="" loading="lazy" style="left:0;right:auto;mask-image:radial-gradient(ellipse 70% 80% at 30% 50%,black 30%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 70% 80% at 30% 50%,black 30%,transparent 100%)">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="ne3"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#ne3)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner wide">
+    <div class="tab-chapter teal tab-reveal">Trusted By</div>
+    <div class="tab-headline tab-reveal">They chose verified truth<br>over synthetic guesswork.</div>
+
+    <div class="partner-row tab-reveal">
+      <span class="partner-name">NVIDIA</span>
+      <span class="partner-name">Waymo</span>
+      <span class="partner-name">IBM</span>
+      <span class="partner-name">GM</span>
+      <span class="partner-name">Axon</span>
+      <span class="partner-name">Acko</span>
+      <span class="partner-name">Flywheel</span>
+      <span class="partner-name">Metakol</span>
+    </div>
+
+    <div class="tab-stat-row tab-reveal">
+      <div class="tab-stat">
+        <div class="n">10B+</div>
+        <div class="l">Real-world miles captured</div>
+      </div>
+      <div class="tab-stat purple">
+        <div class="n">60M+</div>
+        <div class="l">Safety-critical events</div>
+      </div>
+      <div class="tab-stat">
+        <div class="n">98%</div>
+        <div class="l">US road coverage</div>
+      </div>
+      <div class="tab-stat purple">
+        <div class="n">350K</div>
+        <div class="l">Active cameras contributing</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS & INSIGHTS -->
+<div class="tab-divider"></div>
+<section class="tab-section" id="news">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:10%;right:-5%;width:45%;height:65%;background:radial-gradient(ellipse,rgba(35,231,216,0.06),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/paths-map.png" alt="" loading="lazy">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="ne4"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#ne4)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full">
+    <div class="tab-chapter purple tab-reveal">News and Insights</div>
+    <div class="tab-headline tab-reveal">Latest from Nexar.</div>
+
+    <div class="news-grid tab-reveal">
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="particles/badas-intersection.png" alt="" loading="lazy">
+        </div>
+        <div class="news-card-body">
+          <div class="news-date">March 2026</div>
+          <div class="news-title">BADAS achieves #1 across all four collision anticipation benchmarks</div>
+          <div class="news-excerpt">Nexar's V-JEPA2 model sets new state of the art with 0.948 AP, predicting collisions 4.9 seconds before impact.</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="particles/network-roads.png" alt="" loading="lazy">
+        </div>
+        <div class="news-card-body">
+          <div class="news-date">March 2026</div>
+          <div class="news-title">GM production deployment goes live with Nexar data integration</div>
+          <div class="news-excerpt">General Motors integrates Nexar's real-world driving intelligence into production vehicles, marking a new chapter in OEM data partnerships.</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <img src="particles/trust-dna.png" alt="" loading="lazy">
+        </div>
+        <div class="news-card-body">
+          <div class="news-date">February 2026</div>
+          <div class="news-title">NVIDIA Cosmos achieves 88% precision with Nexar real-world data</div>
+          <div class="news-excerpt">Nexar's verified driving data lifts NVIDIA's world simulation model from synthetic baseline to production-grade precision.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REPLICATION MOAT + CTA -->
+<div class="tab-divider"></div>
+<section class="tab-section alt" id="contact">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:20%;right:10%;width:45%;height:60%;background:radial-gradient(ellipse,rgba(161,131,250,0.06),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/closing-sphere.png" alt="" loading="lazy" style="left:0;right:auto;mask-image:radial-gradient(ellipse 70% 80% at 30% 50%,black 30%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 70% 80% at 30% 50%,black 30%,transparent 100%)">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="ne5"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#ne5)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner center">
+    <div class="tab-chapter teal tab-reveal">Get Started</div>
+    <div class="tab-headline tab-reveal" style="font-size:clamp(32px,5vw,56px);">Verify your AI.<br>Trust the results.</div>
+    <div class="tab-copy tab-reveal" style="margin:0 auto 16px;text-align:center;max-width:500px;">
+      Data licensing, custom verified datasets, API access, and enterprise partnerships. The truth layer your AI needs.
+    </div>
+    <div class="tab-stat-row tab-reveal" style="justify-content:center;margin-bottom:40px;">
+      <div class="tab-stat" style="text-align:center;">
+        <div class="n" style="font-size:clamp(36px,6vw,72px);color:var(--teal);">$4B+</div>
+        <div class="l">and 4+ years to replicate<br>what Nexar has already verified</div>
+      </div>
+    </div>
+    <div class="tab-reveal" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="mailto:enterprise@getnexar.com" class="btn-primary" style="padding:18px 48px;font-size:17px;">Contact enterprise team</a>
+      <a href="#vera" class="btn-ghost">Learn about VERA</a>
+    </div>
+  </div>
+</section>
+
+<!-- VERA -->
+<div class="tab-divider"></div>
+<section class="tab-section" id="vera">
+  <div class="tab-bg">
+    <div class="tab-glow" style="top:15%;left:-8%;width:50%;height:65%;background:radial-gradient(ellipse,rgba(35,231,216,0.08),transparent 70%)"></div>
+    <img class="tab-particle-img" src="particles/enterprise-hero-data.png" alt="" loading="lazy" style="opacity:0.2">
+    <svg class="tab-noise" width="100%" height="100%">
+      <filter id="ne6"><feTurbulence baseFrequency="0.65"/></filter>
+      <rect width="100%" height="100%" filter="url(#ne6)"/>
+    </svg>
+  </div>
+  <div class="tab-content-inner full">
+    <div class="tab-chapter teal tab-reveal">VERA</div>
+    <div class="tab-headline tab-reveal">The verification layer<br>for Physical AI.</div>
+    <div class="tab-copy tab-reveal">
+      VERA is how Nexar verifies the real world for AI. Every mile, every event, every frame traced back to an actual camera on an actual road. This is what makes Nexar data different: it's not generated. It's verified.
+    </div>
+
+    <div class="vera-grid tab-reveal">
+      <div class="vera-card">
+        <div class="vera-card-icon">&#x2713;</div>
+        <div class="vera-card-title">Verified, not generated</div>
+        <div class="vera-card-desc">Every data point traces back to a real camera, a real road, a real moment. No synthetic fills. No hallucinated scenarios. Ground truth, verified.</div>
+      </div>
+      <div class="vera-card">
+        <div class="vera-card-icon">&#x1F310;</div>
+        <div class="vera-card-title">10 billion miles of truth</div>
+        <div class="vera-card-desc">The world's largest verified driving dataset. 350,000 cameras continuously contributing, across 98% of US roads. Real coverage. Real scale.</div>
+      </div>
+      <div class="vera-card">
+        <div class="vera-card-icon">&#x1F512;</div>
+        <div class="vera-card-title">Trust you can trace</div>
+        <div class="vera-card-desc">Every verified output carries provenance. When your AI makes a decision based on Nexar data, you can trace it back to the source. That's the trust layer.</div>
+      </div>
+    </div>
+
+    <div class="tab-stat-row tab-reveal" style="margin-top:40px;">
+      <div class="tab-stat">
+        <div class="n">60M+</div>
+        <div class="l">Verified safety events</div>
+      </div>
+      <div class="tab-stat purple">
+        <div class="n">15M</div>
+        <div class="l">Labeled training scenarios</div>
+      </div>
+      <div class="tab-stat">
+        <div class="n">4.9s</div>
+        <div class="l">Pre-collision prediction</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VERIFYING AI LOCKUP -->
+<div class="tab-divider"></div>
+<section class="lockup-section">
+  <video class="lockup-video" autoplay loop muted playsinline>
+    <source src="video/verifying-ai-lockup.webm" type="video/webm">
+    <source src="video/verifying-ai-lockup.mp4" type="video/mp4">
+  </video>
+</section>
+
+<!-- COOKIE CONSENT -->
+<div class="cookie-banner" id="cookieBanner">
+  <video class="cookie-banner-video" autoplay loop muted playsinline>
+    <source src="video/space-cookie.mp4" type="video/mp4">
+  </video>
+  <div class="cookie-banner-text">
+    We use cookies to improve your experience and analyze site traffic. By continuing, you agree to our <a href="#">Cookie Policy</a>.
+  </div>
+  <div class="cookie-banner-actions">
+    <button class="cookie-btn decline" onclick="dismissCookie()">Decline</button>
+    <button class="cookie-btn accept" onclick="dismissCookie()">Accept</button>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-left">&copy; 2026 Nexar. Privacy. Terms.</div>
+  <div class="footer-tagline">Reality beats rehearsal.</div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target)}})},{threshold:0.15});
+document.querySelectorAll('.tab-reveal').forEach(el=>obs.observe(el));
+
+function dismissCookie(){document.getElementById('cookieBanner').classList.remove('show')}
+setTimeout(()=>{document.getElementById('cookieBanner').classList.add('show')},2000);
+</script>
+</body>
+</html>
